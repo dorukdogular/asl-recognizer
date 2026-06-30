@@ -101,7 +101,7 @@ def predict(frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
     if frame.shape[2] == 4:
         frame = frame[:, :, :3]
-    frame = np.ascontiguousarray(frame, dtype=np.uint8)
+    frame = np.ascontiguousarray(frame, dtype=np.uint8).copy()
     h, w = frame.shape[:2]
 
     try:
