@@ -43,7 +43,8 @@ scale-normalized hand landmarks (`x,y,z` × 21). The landmark MLP reaches
 
 **Dataset:** ASL-HG — American Sign Language Hand Gesture Image Dataset  
 Pranto et al. (2026), Data in Brief  
-https://www.sciencedirect.com/science/article/pii/S2352340926000454  
+Article: https://www.sciencedirect.com/science/article/pii/S2352340926000454  
+Mendeley Data: https://data.mendeley.com/datasets/j4y5w2c8w9/1  
 DOI: https://doi.org/10.17632/j4y5w2c8w9.1
 
 **Model & App:** Doruk Doğular (nocontextdoruk)  
