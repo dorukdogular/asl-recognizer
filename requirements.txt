@@ -3,3 +3,4 @@ onnxruntime
 mediapipe
 opencv-python-headless
 numpy
+audioop-lts; python_version >= "3.13"
