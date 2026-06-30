@@ -52,8 +52,20 @@ to MediaPipe-landmark features → MLP. Old src files deleted.
   gradio 4.44 imports `HfFolder` (gone in huggingface_hub≥1.0) → `gradio==5.49.1`;
   mediapipe native lib needs `libGLESv2.so.2` → `packages.txt` (libgl1, libglib2.0-0,
   libgles2, libegl1).
-- Published via huggingface_hub API (cached token), not git push.
-- PENDING: GitHub release — blocked, no gh auth on machine (needs user `gh auth login`).
+- Published via huggingface_hub API (cached token).
+- [x] GitHub: https://github.com/dorukdogular/asl-recognizer (code only, 844 KB;
+  dataset + `*.task` gitignored — hand model auto-downloads).
+- [x] Live webcam bug fixed: empty predictions were the fragile `gr.Interface(live=True)`
+  streaming path → rewrote `app.py` to `gr.Blocks` + `webcam.stream(...)` +
+  `demo.queue()`, defensive frame handling (RGBA/gray/None), stream_every=0.15.
+  Inference logic was correct (real imgs → right labels conf~1.0). Space re-verified RUNNING.
+- [x] License **CC BY-NC 4.0** (non-commercial + attribution) in LICENSE, CITATION.cff,
+  and all READMEs (Space/model/GitHub). HF frontmatter `license: cc-by-nc-4.0`.
+- [x] Analysis: `analysis/{confusion_matrix,per_class_accuracy,class_distribution}.png`
+  + metrics.json. Val acc **100%** (6193 samples, fully diagonal — landmarks separable).
+  Embedded in Space + model READMEs.
+- [x] Cleanup: removed ~110M obsolete EfficientNet artifacts (checkpoints/,
+  asl_classifier.onnx), old logs/results, caches, class_map.json.
 
 ## V1 — EfficientNet (DEPRECATED, files removed)
 - Two-phase EfficientNet-B0, test acc 93.44%. Failed live (train/webcam shift).
