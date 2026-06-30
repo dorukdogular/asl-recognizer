@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software or model, please cite it as below, and cite the ASL-HG dataset."
+title: "ASL Hand Gesture Recognizer (Landmark MLP)"
+authors:
+  - family-names: "Doğular"
+    given-names: "Doruk"
+    alias: "nocontextdoruk"
+year: 2026
+license: "CC-BY-NC-4.0"
+url: "https://huggingface.co/spaces/nocontextdoruk/asl-recognizer"
+repository-artifact: "https://huggingface.co/nocontextdoruk/asl-landmark-mlp"
+references:
+  - type: data
+    title: "ASL-HG: American Sign Language Hand Gesture Image Dataset"
+    authors:
+      - family-names: "Pranto"
+    year: 2026
+    doi: "10.17632/j4y5w2c8w9.1"
+    url: "https://data.mendeley.com/datasets/j4y5w2c8w9/1"
+    notes: "Published in Data in Brief — https://www.sciencedirect.com/science/article/pii/S2352340926000454"

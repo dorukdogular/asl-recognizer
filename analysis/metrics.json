@@ -1,0 +1,33 @@
+{
+  "val_samples": 6193,
+  "val_accuracy": 1.0,
+  "macro_per_class_accuracy": 1.0,
+  "weakest_classes": [
+    {
+      "class": "0",
+      "acc": 1.0,
+      "support": 115
+    },
+    {
+      "class": "1",
+      "acc": 1.0,
+      "support": 196
+    },
+    {
+      "class": "2",
+      "acc": 1.0,
+      "support": 200
+    },
+    {
+      "class": "3",
+      "acc": 1.0,
+      "support": 200
+    },
+    {
+      "class": "4",
+      "acc": 1.0,
+      "support": 200
+    }
+  ],
+  "total_landmark_samples": 30962
+}

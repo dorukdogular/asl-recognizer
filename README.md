@@ -8,6 +8,7 @@ sdk_version: 5.49.1
 python_version: "3.12"
 app_file: app.py
 pinned: false
+license: cc-by-nc-4.0
 ---
 
 # ASL Hand Gesture Recognizer
@@ -30,8 +31,29 @@ last 10 frames so the label stays stable while you hold a sign.
 
 ## Model
 MLP (63 → 256 → 128 → 36) trained on the ASL-HG dataset. Input is wrist-centered,
-scale-normalized hand landmarks (`x,y,z` × 21). The landmark MLP reaches
-99%+ (landmark MLP, val set) and is used here for robust live webcam performance.
+scale-normalized hand landmarks (`x,y,z` × 21). Held-out validation accuracy is
+**100%** on 6,193 landmark samples — the landmark representation makes the 36
+classes near-linearly separable, and it avoids the live-webcam distribution shift
+that hurt the earlier image-CNN baseline.
+
+## Results & Analysis
+
+Evaluated on the stratified 20% validation split (6,193 samples).
+
+| Metric | Value |
+|---|---|
+| Validation accuracy | 100.00% |
+| Macro per-class accuracy | 100.00% |
+| Classes | 36 (A–Z, 0–9) |
+| Landmark samples | 30,962 (hand detected) |
+
+![Confusion matrix](analysis/confusion_matrix.png)
+![Per-class accuracy](analysis/per_class_accuracy.png)
+![Samples per class](analysis/class_distribution.png)
+
+The confusion matrix is fully diagonal. `class_distribution.png` shows how many
+images yielded a detected hand per class (closed-fist signs like `O`, `C`, `A`, `T`
+retain fewer samples because MediaPipe detects them less often).
 
 ## Tech stack
 - **Gradio** — streaming webcam UI
@@ -49,3 +71,11 @@ DOI: https://doi.org/10.17632/j4y5w2c8w9.1
 
 **Model & App:** Doruk Doğular (nocontextdoruk)  
 Landmark-based MLP trained on ASL-HG processed split.
+Model repo: https://huggingface.co/nocontextdoruk/asl-landmark-mlp
+
+## License
+
+**CC BY-NC 4.0** — free for research, education, and personal/open projects **with
+attribution**; **no commercial or enterprise resale**. See [LICENSE](LICENSE).
+If you use it, please cite via [CITATION.cff](CITATION.cff). The ASL-HG dataset is
+owned by its original authors (cite separately).

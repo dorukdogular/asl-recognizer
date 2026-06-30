@@ -96,10 +96,21 @@ def draw_confidence_bar(frame, conf, x, y, width=240, height=24):
 def predict(frame):
     if frame is None:
         return None
-    frame = np.ascontiguousarray(frame)
+    frame = np.asarray(frame)
+    if frame.ndim == 2:
+        frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
+    if frame.shape[2] == 4:
+        frame = frame[:, :, :3]
+    frame = np.ascontiguousarray(frame, dtype=np.uint8)
     h, w = frame.shape[:2]
-    mp_image = MP.Image(image_format=MP.ImageFormat.SRGB, data=frame)
-    result = LANDMARKER.detect(mp_image)
+
+    try:
+        mp_image = MP.Image(image_format=MP.ImageFormat.SRGB, data=frame)
+        result = LANDMARKER.detect(mp_image)
+    except Exception as exc:
+        cv2.putText(frame, f"err: {type(exc).__name__}", (20, 44),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 80, 80), 2)
+        return frame
 
     if not result.hand_landmarks:
         HISTORY.clear()
@@ -123,19 +134,23 @@ def predict(frame):
     return frame
 
 
-_flag_kw = ({"flagging_mode": "never"}
-            if int(gr.__version__.split(".")[0]) >= 5
-            else {"allow_flagging": "never"})
-
-demo = gr.Interface(
-    fn=predict,
-    inputs=gr.Image(sources=["webcam"], streaming=True, label="Webcam"),
-    outputs=gr.Image(label="Prediction"),
-    live=True,
-    title="ASL Hand Gesture Recognizer",
-    description="ASL hand gesture recognizer (A–Z, 0–9). Dataset: ASL-HG by Pranto et al. (2026) — https://www.sciencedirect.com/science/article/pii/S2352340926000454 | Model by Doruk Doğular",
-    **_flag_kw,
+DESCRIPTION = (
+    "Show an ASL letter (A–Z) or digit (0–9) to your webcam and hold steady. "
+    "Dataset: ASL-HG by Pranto et al. (2026) — "
+    "https://www.sciencedirect.com/science/article/pii/S2352340926000454 | "
+    "Model by Doruk Doğular (nocontextdoruk)."
 )
+
+with gr.Blocks(title="ASL Hand Gesture Recognizer") as demo:
+    gr.Markdown("# ASL Hand Gesture Recognizer")
+    gr.Markdown(DESCRIPTION)
+    with gr.Row():
+        webcam = gr.Image(sources=["webcam"], streaming=True, type="numpy", label="Webcam")
+        output = gr.Image(label="Prediction", type="numpy")
+    webcam.stream(predict, inputs=webcam, outputs=output,
+                  stream_every=0.15, concurrency_limit=30)
+
+demo.queue()
 
 
 if __name__ == "__main__":
